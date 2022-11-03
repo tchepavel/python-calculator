@@ -1,7 +1,4 @@
-import operator
-import typing as tp
-
-_NUM2STR: dict[int, str] = {
+_NUM2STR = {
     0: "ноль",
     1: "один",
     2: "два",
@@ -33,20 +30,55 @@ _NUM2STR: dict[int, str] = {
     100: "сто"
 }
 
-_STR2NUM: dict[str, int] = {v: k for k, v in _NUM2STR.items()}
+_STR2NUM = {v: k for k, v in _NUM2STR.items()}
 
-_BINARY_OPERATORS: dict[str, tp.Callable[[tp.Any, tp.Any], tp.Any]] = {
-        'умножить': operator.mul,
-        'разделить': operator.truediv,
-        'плюс': operator.add,
-        'минус': operator.sub,
-        'и': operator.and_,
-        'ксор': operator.xor,
-        'или': operator.or_,
+
+def add(a, b):
+    return a + b
+
+
+def and_(a, b):
+    return a & b
+
+
+def floordiv(a, b):
+    "Same as a // b."
+    return a // b
+
+
+def mod(a, b):
+    "Same as a % b."
+    return a % b
+
+
+def mul(a, b):
+    return a * b
+
+
+def or_(a, b):
+    return a | b
+
+
+def sub(a, b):
+    return a - b
+
+
+def xor(a, b):
+    return a ^ b
+
+
+_BINARY_OPERATORS = {
+    'умножить': mul,
+    'разделить': floordiv,
+    'плюс': add,
+    'минус': sub,
+    'и': and_,
+    'ксор': xor,
+    'или': or_,
 }
 
 
-def get_str_from_int(n: int) -> str:
+def get_str_from_int(n):
     res = []
     deg10 = 1
     while deg10 < n:
@@ -65,7 +97,7 @@ def get_str_from_int(n: int) -> str:
     return " ".join(res)
 
 
-def get_int_from_str(string: str) -> int:
+def get_int_from_str(string):
     tokens = string.split(' ')
     first_num = 0
     second_num = 0
@@ -85,7 +117,3 @@ def get_int_from_str(string: str) -> int:
             first_num += _STR2NUM[token]
     assert op is not None, "В выражении не было операции"
     return op(first_num, second_num)
-
-
-
-
